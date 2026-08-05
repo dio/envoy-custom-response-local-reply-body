@@ -33,7 +33,8 @@ not configure its own body.
 
 The downloadable demo binary is published on the
 [`envoy-custom-response-local-reply-body-v1`](https://github.com/dio/envoy-custom-response-local-reply-body/releases/tag/envoy-custom-response-local-reply-body-v1)
-release. It is for reproducing this issue, not for production deployment.
+release. The current release provides a Darwin ARM64 fastbuild asset and its build metadata. It is
+for reproducing this issue, not for production deployment.
 
 ## Run the patched build
 
@@ -41,8 +42,8 @@ release. It is for reproducing this issue, not for production deployment.
 make run
 ```
 
-`make run` downloads the patched binary for the current operating system and architecture when it
-is not already present. Use a local Envoy binary instead:
+`make run` downloads the patched binary for the current operating system and architecture when a
+release asset is available and it is not already present. Use a local Envoy binary instead:
 
 ```sh
 make run ENVOY_BIN=/path/to/envoy
