@@ -26,7 +26,7 @@ The patch is available as
 [envoyproxy/envoy#46555](https://github.com/envoyproxy/envoy/pull/46555) and on the
 [`dio/custom-response-local-reply-body`](https://github.com/dio/envoy/tree/dio/custom-response-local-reply-body)
 branch. The demo build is pinned to Envoy commit
-[`545e7ac2e4`](https://github.com/dio/envoy/commit/545e7ac2e4).
+[`4e53852609`](https://github.com/dio/envoy/commit/4e53852609).
 It carries the local reply body as a non-owning view during `onLocalReply`, copies it in the custom
 response filter, and uses the copy as the formatter input only when the local response policy does
 not configure its own body.
