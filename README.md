@@ -22,13 +22,16 @@ precedence over the body that produced the local reply.
 
 ## Envoy patch
 
-The prepared Envoy branch is
-[`dio/custom-response-local-reply-body`](https://github.com/dio/envoy/tree/dio/custom-response-local-reply-body).
+The patch is available as
+[envoyproxy/envoy#46555](https://github.com/envoyproxy/envoy/pull/46555) and on the
+[`dio/custom-response-local-reply-body`](https://github.com/dio/envoy/tree/dio/custom-response-local-reply-body)
+branch. The demo build is pinned to Envoy commit
+[`545e7ac2e4`](https://github.com/dio/envoy/commit/545e7ac2e4).
 It carries the local reply body as a non-owning view during `onLocalReply`, copies it in the custom
 response filter, and uses the copy as the formatter input only when the local response policy does
 not configure its own body.
 
-The downloadable demo binary will be pinned to the reviewed branch commit on the
+The downloadable demo binary is published on the
 [`envoy-custom-response-local-reply-body-v1`](https://github.com/dio/envoy-custom-response-local-reply-body/releases/tag/envoy-custom-response-local-reply-body-v1)
 release. It is for reproducing this issue, not for production deployment.
 
