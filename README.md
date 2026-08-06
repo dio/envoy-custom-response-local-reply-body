@@ -39,6 +39,12 @@ for reproducing this issue, not for production deployment.
 
 ## Run the patched build
 
+> [!WARNING]
+> `make run` downloads and executes an unreviewed candidate Envoy binary from the internet. Review
+> the candidate patch, release provenance, and checksum first, and run it only in an isolated,
+> non-production environment. To avoid the download, build Envoy from the candidate source and set
+> `ENVOY_BIN` to that binary.
+
 ```sh
 make run
 ```

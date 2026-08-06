@@ -27,6 +27,8 @@ BASELINE_ENVOY_IMAGE ?= envoyproxy/envoy:v1.39.0
 download-envoy:
 	mkdir -p .bin
 	@if [ ! -x "$(ENVOY_BIN)" ]; then \
+		echo "WARNING: downloading an unreviewed candidate executable"; \
+		echo "use only in an isolated, non-production environment"; \
 		echo "downloading patched Envoy $(ENVOY_ASSET) from $(ENVOY_RELEASE_REPO)/$(ENVOY_RELEASE_TAG)"; \
 		curl -fsSL -L \
 			"https://github.com/$(ENVOY_RELEASE_REPO)/releases/download/$(ENVOY_RELEASE_TAG)/$(ENVOY_ASSET)" \
