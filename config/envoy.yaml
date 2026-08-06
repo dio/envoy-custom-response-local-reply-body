@@ -35,6 +35,12 @@ static_resources:
                             status: 202
                             body:
                               inline_string: route body
+                        - match:
+                            path: /empty-policy
+                          direct_response:
+                            status: 203
+                            body:
+                              inline_string: route body
                 http_filters:
                   - name: envoy.filters.http.custom_response
                     typed_config:
@@ -94,6 +100,28 @@ static_resources:
                                     body_format:
                                       text_format_source:
                                         inline_string: "[%LOCAL_REPLY_BODY%]"
+                            - predicate:
+                                and_matcher:
+                                  predicate:
+                                    - single_predicate:
+                                        input:
+                                          name: local_reply
+                                          typed_config:
+                                            "@type": type.googleapis.com/envoy.type.matcher.v3.HttpResponseLocalReplyMatchInput
+                                        value_match:
+                                          exact: "true"
+                                    - single_predicate:
+                                        input:
+                                          name: status
+                                          typed_config:
+                                            "@type": type.googleapis.com/envoy.type.matcher.v3.HttpResponseStatusCodeMatchInput
+                                        value_match:
+                                          exact: "203"
+                              on_match:
+                                action:
+                                  name: empty_policy
+                                  typed_config:
+                                    "@type": type.googleapis.com/envoy.extensions.http.custom_response.local_response_policy.v3.LocalResponsePolicy
                   - name: envoy.filters.http.router
                     typed_config:
                       "@type": type.googleapis.com/envoy.extensions.filters.http.router.v3.Router

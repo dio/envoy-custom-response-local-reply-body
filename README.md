@@ -15,6 +15,7 @@ The single Envoy configuration exposes three direct-response routes:
 | `/control` | No custom response policy | `control body` | `control body` |
 | `/existing-body` | Format the route's body without configuring a policy body | `[]` | `[route body]` |
 | `/configured-body` | Explicit policy body remains authoritative | `[configured body]` | `[configured body]` |
+| `/empty-policy` | Policy with neither `body` nor `body_format` remains empty | empty | empty |
 
 The proposed behavior is limited to local replies. It does not buffer or expose arbitrary streamed
 upstream response bodies. When `LocalResponsePolicy.body` is configured, it continues to take
@@ -62,6 +63,7 @@ The patched output is:
 control:         control body
 existing body:  [route body]
 configured body:[configured body]
+empty policy:   <>
 ```
 
 ## Observe the current behavior
@@ -72,6 +74,8 @@ Run the same configuration with an official Envoy image:
 make run-baseline
 ```
 
-Then run `make observe` in another shell. The `/existing-body` result is `[]`, demonstrating that
-the formatter currently starts with an empty local reply body. The other two scenarios are controls
-and produce the same result before and after the patch.
+Then run `make observe` and `make check-baseline` in another shell. The `/existing-body` result is
+`[]`, demonstrating that the formatter currently starts with an empty local reply body. The
+remaining scenarios are controls and produce the same result before and after the patch. In
+particular, `/empty-policy` proves that the patch does not preserve the existing body when no
+formatter is configured.

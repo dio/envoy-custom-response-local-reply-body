@@ -21,8 +21,8 @@ ENVOY_ASSET ?= envoy-$(ENVOY_OS)-$(ENVOY_ARCH)-custom-response-local-reply-body
 ENVOY_BIN ?= .bin/envoy-custom-response-local-reply-body
 BASELINE_ENVOY_IMAGE ?= envoyproxy/envoy:v1.39.0
 
-.PHONY: check-patched clean download-envoy observe request-configured-body request-control \
-	request-existing-body run run-baseline
+.PHONY: check-baseline check-patched clean download-envoy observe request-configured-body \
+	request-control request-empty-policy request-existing-body run run-baseline
 
 download-envoy:
 	mkdir -p .bin
@@ -52,16 +52,28 @@ request-existing-body:
 request-configured-body:
 	curl -sS http://127.0.0.1:10080/configured-body
 
+request-empty-policy:
+	curl -sS http://127.0.0.1:10080/empty-policy
+
 observe:
 	@echo "control:         $$(curl -sS http://127.0.0.1:10080/control)"
 	@echo "existing body:  $$(curl -sS http://127.0.0.1:10080/existing-body)"
 	@echo "configured body:$$(curl -sS http://127.0.0.1:10080/configured-body)"
+	@echo "empty policy:   <$$(curl -sS http://127.0.0.1:10080/empty-policy)>"
 
 check-patched:
 	@test "$$(curl -sS http://127.0.0.1:10080/control)" = "control body"
 	@test "$$(curl -sS http://127.0.0.1:10080/existing-body)" = "[route body]"
 	@test "$$(curl -sS http://127.0.0.1:10080/configured-body)" = "[configured body]"
+	@test -z "$$(curl -sS http://127.0.0.1:10080/empty-policy)"
 	@echo "custom response local reply body checks passed"
+
+check-baseline:
+	@test "$$(curl -sS http://127.0.0.1:10080/control)" = "control body"
+	@test "$$(curl -sS http://127.0.0.1:10080/existing-body)" = "[]"
+	@test "$$(curl -sS http://127.0.0.1:10080/configured-body)" = "[configured body]"
+	@test -z "$$(curl -sS http://127.0.0.1:10080/empty-policy)"
+	@echo "current Envoy behavior checks passed"
 
 clean:
 	rm -rf .bin
