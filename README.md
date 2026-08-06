@@ -8,7 +8,7 @@ an Envoy local reply as the input to `%LOCAL_REPLY_BODY%`.
 
 ## Scenarios
 
-The single Envoy configuration exposes three direct-response routes:
+The single Envoy configuration exposes four direct-response routes:
 
 | Route | Purpose | Current release | Patched Envoy |
 |-------|---------|-----------------|---------------|
